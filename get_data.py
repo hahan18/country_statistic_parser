@@ -68,12 +68,12 @@ class DB:
     def __init__(self, parsed_data):
         load_dotenv()
         DB_CONFIG_DICT = {
-            'user': os.environ.get('USER'),
-            'password': os.environ.get('PASSWORD'),
-            'host': os.environ.get('HOST'),
-            'port': os.environ.get('PORT'),
+            'user': os.environ.get('POSTGRES_USER'),
+            'password': os.environ.get('POSTGRES_PASSWORD'),
+            'host': os.environ.get('POSTGRES_HOST'),
+            'port': os.environ.get('POSTGRES_PORT'),
         }
-        self.database = 'Statistic'
+        self.database = os.environ.get('POSTGRES_DB')
         DB_CONN_FORM = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
         self.DB_CONN = (DB_CONN_FORM.format(database=self.database,
                                             **DB_CONFIG_DICT))

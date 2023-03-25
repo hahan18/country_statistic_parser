@@ -14,12 +14,12 @@ class ToDB:
     def __init__(self):
         load_dotenv()
         DB_CONFIG_DICT = {
-            'user': os.environ.get('USER'),
-            'password': os.environ.get('PASSWORD'),
-            'host': os.environ.get('HOST'),
-            'port': os.environ.get('PORT'),
+            'user': os.environ.get('POSTGRES_USER'),
+            'password': os.environ.get('POSTGRES_PASSWORD'),
+            'host': os.environ.get('POSTGRES_HOST'),
+            'port': os.environ.get('POSTGRES_PORT'),
         }
-        self.database = 'Statistic'
+        self.database = os.environ.get('POSTGRES_DB')
         DB_CONN_FORM = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
         self.DB_CONN = (DB_CONN_FORM.format(database=self.database,
                                             **DB_CONFIG_DICT))
@@ -144,9 +144,10 @@ class Printer:
                 (region_name, total_population, biggest_country_population_name, biggest_country_territory_population,
                  smallest_country_population_name, smallest_country_territory_population))
 
-        print(tabulate(response, headers=["Region", "Population", "Biggest Country", "Biggest Country Population",
-                                          "Smallest Country", "Smallest Country Population"]))
+        table = tabulate(response, headers=["Region", "Population", "Biggest Country", "Biggest Country Population",
+                                          "Smallest Country", "Smallest Country Population"], tablefmt="pretty")
 
+        print(table)
 
 if __name__ == '__main__':
     db = ToDB()
