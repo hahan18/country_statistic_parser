@@ -4,13 +4,27 @@ services:
   db:
     image: postgres:15.2
     environment:
-      POSTGRES_USER: your_postgres_user
-      POSTGRES_PASSWORD: your_postgres_password
+      POSTGRES_USER: statistic_user
+      POSTGRES_PASSWORD: myhardpassword1234
       POSTGRES_DB: Statistic
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  app:
+  get_data:
+    build: .
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: your_postgres_user
+      POSTGRES_PASSWORD: your_postgres_password
+      POSTGRES_DB: Statistic
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    volumes:
+      - .:/app
+    command: python get_data.py
+
+  print_data:
     build: .
     depends_on:
       - db
